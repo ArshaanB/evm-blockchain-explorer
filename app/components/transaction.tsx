@@ -29,13 +29,25 @@ export const TransactionList = ({ addressId }: Props) => {
   }, [addressId]);
 
   return (
-    <div>
-      {transactions.map((transaction, index) => (
-        <div key={transaction.hash}>
-          <p>From: {transaction.from}</p>
-          <p>To: {transaction.to}</p>
-          <p>Value: {transaction.value}</p>
-          <p>Transaction Hash: {transaction.hash}</p>
+    <div className="flex flex-col items-center justify-center bg-gray-200 p-5 rounded-lg w-full overflow-auto">
+      {transactions.map((transaction) => (
+        <div
+          key={transaction.hash}
+          className="bg-white p-2 my-2 rounded-md shadow-md w-full overflow-auto"
+        >
+          <p>
+            <span className="mb-0 font-bold">From:</span> {transaction.from}
+          </p>
+          <p>
+            <span className="mb-0 font-bold">To:</span> {transaction.to}
+          </p>
+          <p>
+            <span className="mb-0 font-bold">Value:</span> {transaction.value}
+          </p>
+          <p>
+            <span className="mb-0 font-bold">Transaction Hash:</span>{" "}
+            {transaction.hash}
+          </p>
         </div>
       ))}
     </div>

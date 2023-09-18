@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { ethers } from "ethers";
 
 interface Props {
   addressId: string;
@@ -11,6 +13,8 @@ interface Transaction {
   to: string;
   value: string;
   hash: string;
+  amount: string;
+  timeStamp: number;
 }
 
 export const TransactionList = ({ addressId }: Props) => {
@@ -42,11 +46,27 @@ export const TransactionList = ({ addressId }: Props) => {
             <span className="mb-0 font-bold">To:</span> {transaction.to}
           </p>
           <p>
-            <span className="mb-0 font-bold">Value:</span> {transaction.value}
+            <span className="mb-0 font-bold">Value:</span>{" "}
+            {ethers.formatEther(transaction.value)} ETH
           </p>
           <p>
             <span className="mb-0 font-bold">Transaction Hash:</span>{" "}
             {transaction.hash}
+          </p>
+          <p>
+            <span className="mb-0 font-bold">Timestamp:</span>{" "}
+            {new Date(transaction.timeStamp * 1000).toLocaleString()}
+          </p>
+          <p>
+            <Link
+              href={`https://etherscan.io/tx/${transaction.hash}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <button className="mb-0 font-bold bg-gray-400 hover:bg-gray-500 text-white py-2 px-4 rounded">
+                See More Details
+              </button>
+            </Link>
           </p>
         </div>
       ))}

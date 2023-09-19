@@ -6,7 +6,7 @@ import { ethers } from "ethers";
 
 import { BlockchainContext } from "../context/BlockchainContext";
 
-interface Props {
+interface TransactionListProps {
   addressId: string;
 }
 
@@ -19,7 +19,7 @@ interface Transaction {
   timeStamp: number;
 }
 
-export const TransactionList = ({ addressId }: Props) => {
+export const TransactionList = ({ addressId }: TransactionListProps) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const { blockchain, setBlockchain } = useContext(BlockchainContext);
 
@@ -91,11 +91,26 @@ interface TransactionDetail {
   transactionFee: string;
 }
 
+async function getBlockTimestamp(blockNumberHex: string, blockchain: string) {
+  console.log(blockNumberHex);
+  let url = `https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag=${blockNumberHex}&boolean=true&apikey=${process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY}`;
+  if (blockchain === "Polygon") {
+    url = `https://api.polygonscan.com/api?module=proxy&action=eth_getBlockByNumber&tag=${blockNumberHex}&boolean=true&apikey=${process.env.NEXT_PUBLIC_POLYGONSCAN_API_KEY}`;
+  }
+  const response = await fetch(url);
+  const data = await response.json();
+  console.log(data);
+  const timestamp = parseInt(data.result.timestamp, 16);
+  const date = new Date(timestamp * 1000);
+  return date;
+}
+
 export const TransactionDetail = ({
   transactionId
 }: TransactionDetailProps) => {
   const [transactionDetail, setTransactionDetail] =
     useState<TransactionDetail | null>(null);
+  const [blockTimestamp, setBlockTimestamp] = useState<Date | null>(null);
   const { blockchain } = useContext(BlockchainContext);
 
   useEffect(() => {
@@ -106,8 +121,11 @@ export const TransactionDetail = ({
       }
       const response = await fetch(url);
       const data = await response.json();
-      console.log(data.result);
       setTransactionDetail(data.result);
+      console.log(data.result);
+      // Fetch block timestamp
+      const date = await getBlockTimestamp(data.result.blockNumber, blockchain);
+      setBlockTimestamp(date);
     };
 
     fetchTransactionDetail();
@@ -138,7 +156,7 @@ export const TransactionDetail = ({
           </p>
           <p>
             <span className="mb-0 font-bold">Date:</span>{" "}
-            {new Date(transactionDetail.timeStamp * 1000).toLocaleString()}
+            {blockTimestamp?.toLocaleString()}
             {}
           </p>
           <p>

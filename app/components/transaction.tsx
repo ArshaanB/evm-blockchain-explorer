@@ -65,15 +65,7 @@ export const TransactionList = ({
             {new Date(transaction.timeStamp * 1000).toLocaleString()}
           </p>
           <p>
-            <Link
-              href={
-                blockchain === "Ethereum"
-                  ? `https://etherscan.io/tx/${transaction.hash}`
-                  : `https://polygonscan.com/tx/${transaction.hash}`
-              }
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <Link href={`/transactionDetails/${transaction.hash}`}>
               <button className="mb-0 font-bold bg-gray-400 hover:bg-gray-500 text-white py-2 px-4 rounded">
                 See More Details
               </button>

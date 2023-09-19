@@ -52,7 +52,7 @@ export const TransactionList = ({
             <span className="mb-0 font-bold">To:</span> {transaction.to}
           </p>
           <p>
-            <span className="mb-0 font-bold">Value:</span>{" "}
+            <span className="mb-0 font-bold">Amount:</span>{" "}
             {ethers.formatEther(transaction.value)} ETH
           </p>
           <p>

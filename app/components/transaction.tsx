@@ -89,6 +89,7 @@ interface TransactionDetail {
   blockNumber: number;
   isConfirmed: boolean;
   gas: string;
+  gasPrice: string;
 }
 
 interface TransactionReceipt {
@@ -199,8 +200,9 @@ export const TransactionDetail = ({
               <span className="mb-0 font-bold">Transaction Fee:</span>{" "}
               {getTransactionFee(
                 transactionReceipt.gasUsed,
-                transactionDetail.gas
-              )}
+                transactionDetail.gasPrice
+              )}{" "}
+              {blockchain === "Ethereum" ? "ETH" : "MATIC"}
             </p>
           )}
         </div>

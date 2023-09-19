@@ -196,16 +196,18 @@ export const TransactionDetail = ({
             <span className="mb-0 font-bold">Confirmation Status:</span>{" "}
             {confirmationStatus}
           </p>
-          {confirmationStatus !== "Loading" && (
-            <p>
-              <span className="mb-0 font-bold">Transaction Fee:</span>{" "}
-              {getTransactionFee(
-                transactionReceipt.gasUsed,
-                transactionDetail.gasPrice
-              )}{" "}
-              {blockchain === "Ethereum" ? "ETH" : "MATIC"}
-            </p>
-          )}
+          {confirmationStatus !== "Loading" &&
+            transactionReceipt &&
+            transactionDetail && (
+              <p>
+                <span className="mb-0 font-bold">Transaction Fee:</span>{" "}
+                {getTransactionFee(
+                  transactionReceipt.gasUsed,
+                  transactionDetail.gasPrice
+                )}{" "}
+                {blockchain === "Ethereum" ? "ETH" : "MATIC"}
+              </p>
+            )}
         </div>
       )}
     </div>

@@ -1,10 +1,25 @@
 "use client";
 
 import { TransactionList } from "../../components/transaction";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { ethers } from "ethers";
 
 export default function Page({ params }: { params: { addressId: string } }) {
   const [blockchain, setBlockchain] = useState("Ethereum");
+  const [balance, setBalance] = useState(0);
+
+  useEffect(() => {
+    const fetchBalance = async () => {
+      let url = `https://api.etherscan.io/api?module=account&action=balance&address=${params.addressId}&tag=latest&apikey=${process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY}`;
+      if (blockchain === "Polygon") {
+        url = `https://api.polygonscan.com/api?module=account&action=balance&address=${params.addressId}&tag=latest&apikey=${process.env.NEXT_PUBLIC_POLYGONSCAN_API_KEY}`;
+      }
+      const response = await fetch(url);
+      const data = await response.json();
+      setBalance(data.result);
+    };
+    fetchBalance();
+  }, [blockchain, params.addressId]);
 
   return (
     <div className="flex min-h-screen flex-col items-center  p-24">
@@ -29,8 +44,11 @@ export default function Page({ params }: { params: { addressId: string } }) {
           </select>
         </div>
       </h1>
-      <div className="mt-2"></div>
       <div className="mt-6">
+        <h2 className="text-2xl text-center font-bold text-gray-800">
+          Current Balance: {parseFloat(ethers.formatEther(balance)).toFixed(2)}{" "}
+          {blockchain === "Ethereum" ? "ETH" : "MATIC"}
+        </h2>
         <TransactionList addressId={params.addressId} blockchain={blockchain} />
       </div>
     </div>

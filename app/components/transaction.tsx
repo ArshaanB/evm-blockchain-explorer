@@ -26,9 +26,9 @@ export const TransactionList = ({
 
   useEffect(() => {
     const fetchTransactions = async () => {
-      let url = `https://api.etherscan.io/api?module=account&action=txlist&address=${addressId}&startblock=0&endblock=99999999&page=1&offset=10&sort=desc&apikey=${process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY}`;
+      let url = `https://api.etherscan.io/api?module=account&action=txlist&address=${addressId}&startblock=0&endblock=99999999&page=1&offset=100&sort=desc&apikey=${process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY}`;
       if (blockchain === "Polygon") {
-        url = `https://api.polygonscan.com/api?module=account&action=txlist&address=${addressId}&startblock=0&endblock=99999999&page=1&offset=10&sort=desc&apikey=${process.env.NEXT_PUBLIC_POLYGONSCAN_API_KEY}`;
+        url = `https://api.polygonscan.com/api?module=account&action=txlist&address=${addressId}&startblock=0&endblock=99999999&page=1&offset=100&sort=desc&apikey=${process.env.NEXT_PUBLIC_POLYGONSCAN_API_KEY}`;
       }
       const response = await fetch(url);
       const data = await response.json();
@@ -53,7 +53,8 @@ export const TransactionList = ({
           </p>
           <p>
             <span className="mb-0 font-bold">Amount:</span>{" "}
-            {ethers.formatEther(transaction.value)} ETH
+            {ethers.formatEther(transaction.value)}{" "}
+            {blockchain === "Ethereum" ? "ETH" : "MATIC"}
           </p>
           <p>
             <span className="mb-0 font-bold">Transaction Hash:</span>{" "}
@@ -65,7 +66,11 @@ export const TransactionList = ({
           </p>
           <p>
             <Link
-              href={`https://etherscan.io/tx/${transaction.hash}`}
+              href={
+                blockchain === "Ethereum"
+                  ? `https://etherscan.io/tx/${transaction.hash}`
+                  : `https://polygonscan.com/tx/${transaction.hash}`
+              }
               target="_blank"
               rel="noopener noreferrer"
             >

@@ -6,6 +6,7 @@ import { ethers } from "ethers";
 
 interface Props {
   addressId: string;
+  blockchain: string;
 }
 
 interface Transaction {
@@ -17,20 +18,25 @@ interface Transaction {
   timeStamp: number;
 }
 
-export const TransactionList = ({ addressId }: Props) => {
+export const TransactionList = ({
+  addressId,
+  blockchain = "Ethereum"
+}: Props) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
   useEffect(() => {
     const fetchTransactions = async () => {
-      const response = await fetch(
-        `https://api.etherscan.io/api?module=account&action=txlist&address=${addressId}&startblock=0&endblock=99999999&page=1&offset=10&sort=desc&apikey=${process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY}`
-      );
+      let url = `https://api.etherscan.io/api?module=account&action=txlist&address=${addressId}&startblock=0&endblock=99999999&page=1&offset=10&sort=desc&apikey=${process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY}`;
+      if (blockchain === "Polygon") {
+        url = `https://api.polygonscan.com/api?module=account&action=txlist&address=${addressId}&startblock=0&endblock=99999999&page=1&offset=10&sort=desc&apikey=${process.env.NEXT_PUBLIC_POLYGONSCAN_API_KEY}`;
+      }
+      const response = await fetch(url);
       const data = await response.json();
       setTransactions(data.result);
     };
 
     fetchTransactions();
-  }, [addressId]);
+  }, [addressId, blockchain]);
 
   return (
     <div className="flex flex-col items-center justify-center bg-gray-200 p-5 rounded-lg w-full overflow-auto">

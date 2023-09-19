@@ -1,8 +1,16 @@
+"use client";
+
+import { useContext } from "react";
+
+import { BlockchainContext } from "../../context/BlockchainContext";
+
 export default function Page({
   params
 }: {
   params: { transactionId: string };
 }) {
+  const { blockchain, setBlockchain } = useContext(BlockchainContext);
+
   return (
     <div className="flex min-h-screen flex-col items-center  p-24">
       <h1 className="text-4xl text-center font-bold text-gray-800">

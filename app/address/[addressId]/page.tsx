@@ -1,11 +1,13 @@
 "use client";
 
 import { TransactionList } from "../../components/transaction";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { ethers } from "ethers";
 
+import { BlockchainContext } from "../../context/BlockchainContext";
+
 export default function Page({ params }: { params: { addressId: string } }) {
-  const [blockchain, setBlockchain] = useState("Ethereum");
+  const { blockchain, setBlockchain } = useContext(BlockchainContext);
   const [balance, setBalance] = useState(0);
 
   useEffect(() => {

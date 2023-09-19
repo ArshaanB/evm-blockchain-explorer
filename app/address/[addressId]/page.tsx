@@ -51,7 +51,7 @@ export default function Page({ params }: { params: { addressId: string } }) {
           Current Balance: {parseFloat(ethers.formatEther(balance)).toFixed(2)}{" "}
           {blockchain === "Ethereum" ? "ETH" : "MATIC"}
         </h2>
-        <TransactionList addressId={params.addressId} blockchain={blockchain} />
+        <TransactionList addressId={params.addressId} />
       </div>
     </div>
   );

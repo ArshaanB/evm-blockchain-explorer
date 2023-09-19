@@ -104,7 +104,7 @@ async function getBlockTimestamp(blockNumberHex: string, blockchain: string) {
   }
   const response = await fetch(url);
   const data = await response.json();
-  const timestamp = parseInt(data.result.timestamp, 16);
+  const timestamp = parseInt(data.result?.timestamp, 16);
   const date = new Date(timestamp * 1000);
   return date;
 }
@@ -186,11 +186,12 @@ export const TransactionDetail = ({
             <span className="mb-0 font-bold">Transaction Hash:</span>{" "}
             {transactionDetail.hash}
           </p>
-          <p>
-            <span className="mb-0 font-bold">Date:</span>{" "}
-            {blockTimestamp?.toLocaleString()}
-            {}
-          </p>
+          {confirmationStatus !== "Loading" && (
+            <p>
+              <span className="mb-0 font-bold">Date:</span>{" "}
+              {blockTimestamp?.toLocaleString()}
+            </p>
+          )}
           <p>
             <span className="mb-0 font-bold">Confirmation Status:</span>{" "}
             {confirmationStatus}

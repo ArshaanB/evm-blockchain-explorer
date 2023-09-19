@@ -27,7 +27,11 @@ export default function Page({ params }: { params: { addressId: string } }) {
     <div className="flex min-h-screen flex-col items-center  p-24">
       <h1 className="text-4xl text-center font-bold text-gray-800">
         Viewing transactions for address
-        <pre className="text-gray-600">{params.addressId}</pre>
+        <pre className="text-gray-600">
+          {`${params.addressId.substring(0, 6)}...${params.addressId.substring(
+            params.addressId.length - 4
+          )}`}
+        </pre>
         on&nbsp;
         <div className="relative inline-flex">
           <select

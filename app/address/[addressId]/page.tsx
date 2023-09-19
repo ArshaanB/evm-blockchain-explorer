@@ -45,7 +45,7 @@ export default function Page({ params }: { params: { addressId: string } }) {
         </div>
       </h1>
       <div className="mt-6">
-        <h2 className="text-2xl text-center font-bold text-gray-800">
+        <h2 className="text-3xl text-center font-bold text-gray-800 mb-4">
           Current Balance: {parseFloat(ethers.formatEther(balance)).toFixed(2)}{" "}
           {blockchain === "Ethereum" ? "ETH" : "MATIC"}
         </h2>

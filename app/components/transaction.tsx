@@ -127,6 +127,7 @@ export const TransactionDetail = ({
     useState<TransactionReceipt | null>(null);
   const [blockTimestamp, setBlockTimestamp] = useState<Date | null>(null);
   const { blockchain } = useContext(BlockchainContext);
+  const [confirmationStatus, setConfirmationStatus] = useState<string>("");
 
   useEffect(() => {
     const fetchTransactionDetail = async () => {
@@ -138,9 +139,19 @@ export const TransactionDetail = ({
       }
       const response = await fetch(url);
       const data = await response.json();
-      setTransactionDetail(data.result);
       const responseForReceipt = await fetch(urlForReceipt);
       const dataForReceipt = await responseForReceipt.json();
+
+      // Check if the transaction is pending
+      if (data.result.blockNumber === null) {
+        setConfirmationStatus("Loading");
+      } else {
+        parseInt(dataForReceipt.result.status, 16) === 1
+          ? setConfirmationStatus("Successful")
+          : setConfirmationStatus("Failed");
+      }
+
+      setTransactionDetail(data.result);
       setTransactionReceipt(dataForReceipt.result);
 
       // Fetch block timestamp
@@ -167,7 +178,7 @@ export const TransactionDetail = ({
           </p>
           <p>
             <span className="mb-0 font-bold">Amount:</span>{" "}
-            {ethers.formatEther(transactionDetail.value)}{" "}
+            {parseFloat(ethers.formatEther(transactionDetail.value)).toFixed(2)}{" "}
             {blockchain === "Ethereum" ? "ETH" : "MATIC"}
           </p>
           <p>
@@ -181,17 +192,17 @@ export const TransactionDetail = ({
           </p>
           <p>
             <span className="mb-0 font-bold">Confirmation Status:</span>{" "}
-            {transactionDetail.isConfirmed ? "Confirmed" : "Pending"}
+            {confirmationStatus}
           </p>
-          {/* <p>
-            <span className="mb-0 font-bold">Transaction Fee:</span>{" "}
-            {ethers.formatEther(
-              getTransactionFee(
+          {confirmationStatus !== "Loading" && (
+            <p>
+              <span className="mb-0 font-bold">Transaction Fee:</span>{" "}
+              {getTransactionFee(
                 transactionReceipt.gasUsed,
                 transactionDetail.gas
-              )
-            )}
-          </p> */}
+              )}
+            </p>
+          )}
         </div>
       )}
     </div>

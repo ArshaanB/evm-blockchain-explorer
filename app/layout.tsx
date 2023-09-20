@@ -19,7 +19,7 @@ export default function RootLayout({
     <BlockchainContext.Provider value={{ blockchain, setBlockchain }}>
       <html lang="en">
         <head>
-          <title>Frontend Blockchain Assessment</title>
+          <title>EVM Blockchain Explorer</title>
         </head>
         <body className={inter.className}>{children}</body>
       </html>

@@ -170,11 +170,11 @@ export const TransactionDetail = ({
           key={transactionDetail.hash}
           className="bg-white p-2 my-2 rounded-md shadow-md w-full overflow-auto"
         >
-          <p>
+          <p className="break-all">
             <span className="mb-0 font-bold">From:</span>{" "}
             {transactionDetail.from}
           </p>
-          <p>
+          <p className="break-all">
             <span className="mb-0 font-bold">To:</span> {transactionDetail.to}
           </p>
           <p>
@@ -182,7 +182,7 @@ export const TransactionDetail = ({
             {parseFloat(ethers.formatEther(transactionDetail.value)).toFixed(2)}{" "}
             {blockchain === "Ethereum" ? "ETH" : "MATIC"}
           </p>
-          <p>
+          <p className="break-all">
             <span className="mb-0 font-bold">Transaction Hash:</span>{" "}
             {transactionDetail.hash}
           </p>

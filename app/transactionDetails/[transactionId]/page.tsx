@@ -14,7 +14,7 @@ export default function Page({
   const { blockchain } = useContext(BlockchainContext);
 
   return (
-    <div className="flex min-h-screen flex-col items-center  p-24">
+    <div className="flex min-h-screen flex-col items-center p-24">
       <h1 className="text-4xl text-center font-bold text-gray-800">
         Viewing transaction details for hash&nbsp;
         <Link

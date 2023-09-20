@@ -44,10 +44,10 @@ export const TransactionList = ({ addressId }: TransactionListProps) => {
           key={transaction.hash}
           className="bg-white p-2 my-2 rounded-md shadow-md w-full overflow-auto"
         >
-          <p>
+          <p className="break-all">
             <span className="mb-0 font-bold">From:</span> {transaction.from}
           </p>
-          <p>
+          <p className="break-all">
             <span className="mb-0 font-bold">To:</span> {transaction.to}
           </p>
           <p>
@@ -55,7 +55,7 @@ export const TransactionList = ({ addressId }: TransactionListProps) => {
             {ethers.formatEther(transaction.value)}{" "}
             {blockchain === "Ethereum" ? "ETH" : "MATIC"}
           </p>
-          <p>
+          <p className="break-all">
             <span className="mb-0 font-bold">Transaction Hash:</span>{" "}
             {transaction.hash}
           </p>
@@ -63,7 +63,7 @@ export const TransactionList = ({ addressId }: TransactionListProps) => {
             <span className="mb-0 font-bold">Timestamp:</span>{" "}
             {new Date(transaction.timeStamp * 1000).toLocaleString()}
           </p>
-          <p>
+          <p className="break-all">
             <Link href={`/transactionDetails/${transaction.hash}`}>
               <button className="mb-0 font-bold bg-gray-400 hover:bg-gray-500 text-white py-2 px-4 rounded">
                 See More Details

@@ -4,6 +4,16 @@ A simple blockchain explorer where you can see the latest transactions for a giv
 
 The website is hosted on Vercel, feel free to visit the website here: https://frontend-blockchain-assessment.vercel.app/
 
+![Picture 1](1.png)
+
+<pre></pre>
+
+![Picture 2](2.png)
+
+<pre></pre>
+
+![Picture 3](3.png)
+
 ## Routes
 
 ### /address/[address]
